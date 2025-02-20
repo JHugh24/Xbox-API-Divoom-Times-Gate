@@ -31,7 +31,7 @@ auth_url = ( # auth_url is the endpoint for Microsoft OAuth 2.0, using the confi
     "response_type=code&" # Configures what type of response you want, code indicates you want an authorization code
     "redirect_uri=https://localhost&" # Specifies the redirection URL for after the authorization request is complete
     "response_mode=query&" # Specifies how the response will be given, using query indicates that it will return as a query parameter in the redirect URL
-    "scope=Xboxlive.signin Xboxlive.offline_access" # The scope of the permissions the app is requesting, in this case it is requesting permissions for xbox live sign in and offline access
+    "scope=Xboxlive.signin" # The scope of the permissions the app is requesting, in this case it is requesting permissions for xbox live sign in and offline access
 )
 
 
@@ -50,14 +50,14 @@ token_data = { # token_data is a dictionary containing the data being sent in th
     'code': auth_code, # The authorization code that was obtained from the redirect response url after a succesfull authorization through Microsofts OAuth 
     'redirect_uri': REDIRECT_URI, # The base redirect URL, must match with the URI obtained from the authorization request
     'grant_type': 'authorization_code', # grant_type specifies what your are using to exchange for the Token, in this case we are using the authorization code obtained from the authorization request redirect URI
-    'scope': 'Xboxlive.signin Xboxlive.offline_access' # The scope of the permissions the app is requesting, in this case it is requesting permissions for xbox live sign in and offline access
+    'scope': 'Xboxlive.signin' # The scope of the permissions the app is requesting, in this case it is requesting permissions for xbox live sign in and offline access
 }
 
 response = requests.post(token_url, data=token_data) # requests.post sends a POST request to the Token endpoint using the token_data dictionary that was created as the request body, this is where the actual exchange of authorization code for access token happen
 if response.status_code == 200: # This is checking whether or not the request was successful, status code 200 indicates a success
     token_response = response.json() # This parses the JSON response from the endpoint, the response normally includes an access_token to authenticate API requests, a refresh_token used to get new tokens when the current one expires, and the expires_in field which indicates in seconds how long until the token expires
     access_token = token_response['access_token'] # This is setting the access_token from the parsed JSON response to the access_token variable
-    print("Access Token:", access_token) # Prints out the access token, allowing validation in the terminal that the response was fully successful
+    print("Access Token:", access_token) # Prints out the access token, allowing validation in the terminal that the response was fully successful - Change: remove for production so token is not exposed
 else:
     print("Failed to retrieve access token:", response.status_code, response.text) # Handles errors that come from the token exchange request, printing out the status code received and any error message that may accompany it
 
