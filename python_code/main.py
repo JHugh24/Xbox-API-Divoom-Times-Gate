@@ -64,10 +64,10 @@ else:
 xbox_friends_url = 'https://xbl.io/api/v2/friends'
 xbox_friends_headers = {
     'X-Authorization': f'Bearer {access_token}',
-    'Accept': 'application/json',
+    'Accept': 'application/json'
 }
 
-xbox_friends_response = requests.get(xbox_friends_url, headers=xbox_friends_headers)
+xbox_friends_response = requests.get(url=xbox_friends_url, headers=xbox_friends_headers)
 print(xbox_friends_response.status_code, xbox_friends_response.text) # Printing for debug, Change: remove for production use
 if xbox_friends_response.status_code == 200:
     friends_list = xbox_friends_response.json()
